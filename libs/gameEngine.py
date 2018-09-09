@@ -8,23 +8,31 @@ class Player:
         self.name = name
         self.score = 0
 
+class Game:
+    def __init__(self, names, categories):
+        self.player1= Player(names[0])
 
-def initGame(players):
+        if len(names) > 1:
+            self.player2= Player(names[1])
+        if len(names) > 2:
+            self.player3= Player(names[2])
+
+        self.categories = categories
+
+def initRound(rNumber):
     categoriesFull = getRandomCategories()
     rCategories = []
     while len(rCategories) <= 6:
-        category = fetchCategory(categoriesFull, 1)
+        category = fetchCategory(categoriesFull, rNumber)
         # make sure no repetition
         if category not in rCategories:
             rCategories.append(category)
-    print(rCategories)
+    return rCategories
 
-    playerCollection = []
-    for p in range(len(players)):
-        playerCollection.append(Player(players[p]))
-   
-    
-
+def initGame(names):
+    rCategories = initRound(1)
+    game = Game(names, rCategories)
+    return game
 
 
 def getRandomCategories():
@@ -101,7 +109,7 @@ def clueValidator(clues, rValues, rClues):
                         break
     return rClues
 
-initGame(['John', 'Mary', 'Dave'])
+
 
 
 

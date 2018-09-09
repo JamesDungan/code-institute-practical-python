@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 <div class="welcome">
     <h1>Welcome to J'Pyrdy!</h1>
     <p>J'Pyrdy! is an online emulation of the U.S. television quiz show Jeopardy! It was developed using the python programming
@@ -28,7 +29,7 @@
             <label for="player2_name">Player Three: </label>
             <input id="player2_name" type="text" length="10">
         </p>
-        <button type="submit"><strong>PLAY J'PYRDY!</strong></button>
+        <a href="{{url_for('game')}}"><strong>PLAY J'PYRDY!</strong></a>
     </form>
 </div>
 
