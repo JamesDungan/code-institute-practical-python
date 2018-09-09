@@ -3,16 +3,33 @@ import requests
 from datetime import datetime as dt
 base_url = "http://www.jservice.io/api/"
 
-def initGame():
-    categories = getRandomCategories()
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.score = 0
+
+
+def initGame(players):
+    categoriesFull = getRandomCategories()
     rCategories = []
-    for i in range(6):
-        rCategories.append(fetchCategory(categories, 1))
+    while len(rCategories) <= 6:
+        category = fetchCategory(categoriesFull, 1)
+        # make sure no repetition
+        if category not in rCategories:
+            rCategories.append(category)
     print(rCategories)
+
+    playerCollection = []
+    for p in range(len(players)):
+        playerCollection.append(Player(players[p]))
+   
+    
+
 
 
 def getRandomCategories():
     offset = random.randint(1, 183)*100
+    print(offset)
     response = requests.get(base_url+"categories?count=100&offset="+str(offset))
     return response.json()
 
@@ -42,6 +59,8 @@ def getRandomCategories():
 # check if clue exists for each amount 
 # check if all clues have questions and answer
 
+# receives a list of categories and picks one at random
+# sends this to the clueValidator which sends back its valid clues (of which there must be 5)
 def fetchCategory(categories, round):
     rClues = []
     while len(rClues) < 5:
@@ -50,6 +69,7 @@ def fetchCategory(categories, round):
         response = requests.get(base_url+"category?id="+str(categoryId))
         category = response.json()
         categoryTitle = category['title']
+
         clues = category['clues'] #-->list of dicts
         random.shuffle(clues)
         
@@ -61,13 +81,14 @@ def fetchCategory(categories, round):
         elif round == 2:
             rValues = jpyrdy2
 
-        rClues = getValidClues(clues, rValues, rClues)
+        rClues = clueValidator(clues, rValues, rClues)
     rCategory = {'title':categoryTitle, 'clues':rClues}    
     return rCategory
     
 
-
-def getValidClues(clues, rValues, rClues):
+# receives list of clues and round-values and empty list of clues for the round
+# returns list of all the valid clues matching the values from the round-values list (one for each value)
+def clueValidator(clues, rValues, rClues):
     for clue in clues:
         for index, val in enumerate(rValues):
             newGameDate = dt.strptime("2001-11-01T12:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -80,7 +101,7 @@ def getValidClues(clues, rValues, rClues):
                         break
     return rClues
 
-initGame()
+initGame(['John', 'Mary', 'Dave'])
 
 
 
