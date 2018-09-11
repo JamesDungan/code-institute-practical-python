@@ -22,16 +22,20 @@ class Game:
 def initRound(rNumber):
     categoriesFull = getRandomCategories()
     rCategories = []
-    while len(rCategories) <= 6:
+    while len(rCategories) <= 5:
         category = fetchCategory(categoriesFull, rNumber)
+        
         # make sure no repetition
         if category not in rCategories:
             rCategories.append(category)
+            
     return rCategories
 
 def initGame(names):
     rCategories = initRound(1)
+
     game = Game(names, rCategories)
+    
     return game
 
 
@@ -72,6 +76,7 @@ def getRandomCategories():
 def fetchCategory(categories, round):
     rClues = []
     while len(rClues) < 5:
+        rClues = []
         randomIndex = random.randint(0, 99)
         categoryId = categories[randomIndex]['id']
         response = requests.get(base_url+"category?id="+str(categoryId))
@@ -90,7 +95,9 @@ def fetchCategory(categories, round):
             rValues = jpyrdy2
 
         rClues = clueValidator(clues, rValues, rClues)
-    rCategory = {'title':categoryTitle, 'clues':rClues}    
+        print(len(rClues))
+    rCategory = {'title':categoryTitle, 'clues':rClues} 
+        
     return rCategory
     
 
