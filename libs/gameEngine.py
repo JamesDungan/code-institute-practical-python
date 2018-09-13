@@ -28,7 +28,7 @@ def initRound(rNumber):
         # make sure no repetition
         if category not in rCategories:
             rCategories.append(category)
-            
+    print(rCategories)
     return rCategories
 
 def initGame(names):

@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- {{game.player1.name}}
-{{game.player2.name}}
-{{game.player3.name}} -->
-<div class="board"></div>
+<div class="board">
+    {% for cat in game.categories %}
+    <div class="category">
+        <div class="category_header">{{cat['title']}}</div>
+        {% for clue in cat['clues']%}
+        <div class="question">{{clue['value']}}</div>
+        {% endfor %}
+    </div>
+    {%endfor%}
+</div>
 {% endblock %}
