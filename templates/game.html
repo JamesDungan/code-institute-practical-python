@@ -5,7 +5,7 @@
     <div class="category">
         <div class="category_header">{{cat['title']}}</div>
         {% for clue in cat['clues']%}
-        <div class="question">{{clue['value']}}</div>
+        <div class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}">{{clue['value']}}</div>
         {% endfor %}
     </div>
     {%endfor%}
