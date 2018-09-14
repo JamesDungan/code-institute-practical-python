@@ -99,7 +99,7 @@ def fetchCategory(categories, round):
     rCategory = {'title':categoryTitle, 'clues':rClues} 
         
     return rCategory
-    
+    # TODO:sort clues by value so that they will appear in order 
 
 # receives list of clues and round-values and empty list of clues for the round
 # returns list of all the valid clues matching the values from the round-values list (one for each value)
