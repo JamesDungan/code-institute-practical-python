@@ -5,9 +5,28 @@
     <div class="category">
         <div class="category_header">{{cat['title']}}</div>
         {% for clue in cat['clues']%}
-        <div class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}">{{clue['value']}}</div>
+        <div class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}" onclick="showModal(this)">{{clue['value']}}</div>
         {% endfor %}
     </div>
     {%endfor%}
+    <div id="question_panel" class="modal"> 
+        <form>
+            <div class="question"></div>
+            <input type="text" class="answer_input"/>
+            <input type="submit" class="submit" value="SUBMIT"/>
+        </form>    
+    </div>
 </div>
+<script>
+    function showModal(object){
+        var question = object.question;
+        var answer = object.answer;
+        var value = object.innerText;
+        object.innerText = "";
+        var questionPanel = document.getElementById("question_panel");
+        
+
+
+    }
+</script>
 {% endblock %}
