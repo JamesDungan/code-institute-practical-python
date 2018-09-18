@@ -5,28 +5,36 @@
     <div class="category">
         <div class="category_header">{{cat['title']}}</div>
         {% for clue in cat['clues']%}
-        <div class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}" onclick="showModal(this)">{{clue['value']}}</div>
+        <button class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}">{{clue['value']}}</button>
         {% endfor %}
     </div>
     {%endfor%}
-    <div id="question_panel" class="modal"> 
-        <form>
-            <div class="question"></div>
-            <input type="text" class="answer_input"/>
-            <input type="submit" class="submit" value="SUBMIT"/>
-        </form>    
+    <div id="question-panel" class="modal fade" role="dialog"> 
+        <div class="modal-dialog">  
+            <div class = "modal-content">
+                <div class="modal-body">  
+                    <form id="question-form">
+                        <div class="question"></div>
+                        <input type="text" class="answer_input"/>
+                        <input type="submit" class="submit" value="SUBMIT"/>
+                    </form>
+                </div>
+            </div>     
+        </div>         
     </div>
 </div>
-<script>
-    function showModal(object){
-        var question = object.question;
-        var answer = object.answer;
-        var value = object.innerText;
-        object.innerText = "";
-        var questionPanel = document.getElementById("question_panel");
-        
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.clue').click(function(e){
+            var clue = e.target;
+            var question = clue.attributes.question.value;
+            var answer = clue.attributes.answer.value;
+            var value = clue.innerText;
+            $('.question').append(document.createTextNode(question));
+            $('#question-panel').modal({show:true});
 
+        });
+    });
 
-    }
 </script>
 {% endblock %}
