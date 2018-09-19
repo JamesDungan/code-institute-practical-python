@@ -15,7 +15,7 @@
         <div class= "score">{{player['score']}}</div>
         {% endfor %}
     </div>
-    <div id="question-panel" class="modal fade" role="dialog"> 
+    <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false"> 
         <div class="modal-dialog">  
             <div class = "modal-content">
                 <div class="modal-body">  
@@ -35,8 +35,10 @@
         $('.clue').click(function(e){
             var clue = e.target;
             var question = clue.attributes.question.value;
-            // var answer = clue.attributes.answer.value;
-            // var value = clue.innerText;
+            var answer = clue.attributes.answer.value;
+            var clueValue = clue.innerText;
+            $('#answer').val(answer);
+            $(".question").attr("data-clueValue", clueValue);
             $('.question').append(document.createTextNode(question));
             $('#question-panel').modal({show:true});
         });
