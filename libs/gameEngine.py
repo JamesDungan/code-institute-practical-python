@@ -11,12 +11,15 @@ class Player:
 class Game:
     def __init__(self, names, categories):
         self.player1= Player(names[0])
-
+        
+        self.players = [self.player1]
+        print('length of names array>>>>>>>', len(names))
         if len(names) > 1:
             self.player2= Player(names[1])
+            self.players.append(self.player2)
         if len(names) > 2:
             self.player3= Player(names[2])
-
+            self.players.append(self.player3)
         self.categories = categories
 
 def initRound(rNumber):

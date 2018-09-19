@@ -9,13 +9,18 @@ def index():
 
 @app.route('/game', methods=['POST'])
 def game():
-    player1 = request.form.get("player1")
-    player2 = request.form.get("player2")
-    player3 = request.form.get("player3")
-    players = [player1,player2,player3]
+    player1 = request.form["player1"]
+    player2 = request.form["player2"]
+    player3 = request.form["player3"]
+    players = [player1]
     
+    if player2 is not '':
+        players.append(player2)
+    if player3 is not '':
+        players.append(player3)
+
     game = engine.initGame(players)
-    
+        
     return render_template("game.html", game=game)
 
 # @app.route('/leader_board')

@@ -9,6 +9,12 @@
         {% endfor %}
     </div>
     {%endfor%}
+    <div class="game-scores">
+        {% for player in game.players %}
+        <div class="name">{{player['name']}}</div>
+        <div class= "score">{{player['score']}}</div>
+        {% endfor %}
+    </div>
     <div id="question-panel" class="modal fade" role="dialog"> 
         <div class="modal-dialog">  
             <div class = "modal-content">
@@ -23,18 +29,20 @@
         </div>         
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('.clue').click(function(e){
             var clue = e.target;
             var question = clue.attributes.question.value;
-            var answer = clue.attributes.answer.value;
-            var value = clue.innerText;
+            // var answer = clue.attributes.answer.value;
+            // var value = clue.innerText;
             $('.question').append(document.createTextNode(question));
             $('#question-panel').modal({show:true});
-
+        });
+        $('#question-panel').on('hidden.bs.modal', function () {
+            $('.question').empty();
         });
     });
-
 </script>
 {% endblock %}
