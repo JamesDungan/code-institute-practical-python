@@ -1,5 +1,6 @@
 import random
 import requests
+import operator
 from datetime import datetime as dt
 base_url = "http://www.jservice.io/api/"
 
@@ -13,7 +14,6 @@ class Game:
         self.player1= Player(names[0])
         
         self.players = [self.player1]
-        print('length of names array>>>>>>>', len(names))
         if len(names) > 1:
             self.player2= Player(names[1])
             self.players.append(self.player2)
@@ -29,9 +29,9 @@ def initRound(rNumber):
         category = fetchCategory(categoriesFull, rNumber)
         
         # make sure no repetition
-        if category not in rCategories:
+        if not any(category['title'] == c['title'] for c in rCategories):
             rCategories.append(category)
-    print(rCategories)
+    
     return rCategories
 
 def initGame(names):
@@ -99,6 +99,7 @@ def fetchCategory(categories, round):
 
         rClues = clueValidator(clues, rValues, rClues)
         print(len(rClues))
+    rClues.sort(key=operator.itemgetter('value'), reverse=True)
     rCategory = {'title':categoryTitle, 'clues':rClues} 
         
     return rCategory
@@ -118,6 +119,9 @@ def clueValidator(clues, rValues, rClues):
                         rValues.remove(val)
                         break
     return rClues
+
+# def checkAnswer():
+
 
 
 

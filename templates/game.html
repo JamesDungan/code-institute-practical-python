@@ -21,7 +21,7 @@
                 <div class="modal-body">  
                     <form id="question-form">
                         <div class="question"></div>
-                        <input type="text" class="answer_input"/>
+                        <input type="text" class="answer_input" name="answer"/>
                         <input type="submit" class="submit" value="SUBMIT"/>
                     </form>
                 </div>
@@ -39,6 +39,7 @@
             var clueValue = clue.innerText;
             $('#answer').val(answer);
             $(".question").attr("data-clueValue", clueValue);
+            $(".question").attr("data-answer", answer);
             $('.question').append(document.createTextNode(question));
             $('#question-panel').modal({show:true});
         });
@@ -46,5 +47,13 @@
             $('.question').empty();
         });
     });
+    var form = document.getElementById('question-form');
+    form.onsubmit = function(e){
+        e.preventDefault();
+        
+    }
+    
+
+    
 </script>
 {% endblock %}

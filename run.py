@@ -23,9 +23,12 @@ def game():
         
     return render_template("game.html", game=game)
 
-# @app.route('/leader_board')
-# def leader_board():
-#     return render_template("index.html")
+@app.route('/submit_answer', methods=['POST'])
+def submit_answer():
+    return True
+
+
+
 
 
 if __name__ == '__main__':
