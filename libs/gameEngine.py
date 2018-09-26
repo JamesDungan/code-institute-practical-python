@@ -1,26 +1,10 @@
 import random
 import requests
 import operator
+from flask import session 
 from datetime import datetime as dt
 base_url = "http://www.jservice.io/api/"
-
-class Player:
-    def __init__(self, name):
-        self.name = name
-        self.score = 0
-
-class Game:
-    def __init__(self, names, categories):
-        self.player1= Player(names[0])
-        
-        self.players = [self.player1]
-        if len(names) > 1:
-            self.player2= Player(names[1])
-            self.players.append(self.player2)
-        if len(names) > 2:
-            self.player3= Player(names[2])
-            self.players.append(self.player3)
-        self.categories = categories
+             
 
 def initRound(rNumber):
     categoriesFull = getRandomCategories()
@@ -36,10 +20,16 @@ def initRound(rNumber):
 
 def initGame(names):
     rCategories = initRound(1)
-
-    game = Game(names, rCategories)
+    session['categories'] = rCategories
     
-    return game
+    players = [{'number':1, 'name':names[0], 'score':0}]
+
+    if len(names) > 1:
+        players.append({'number':2, 'name':names[1], 'score':0})
+    if len(names) > 2:
+        players.append({'number':3, 'name':names[2], 'score':0})
+    session['players'] = players    
+    session['currentPlayer'] = 1
 
 
 def getRandomCategories():
@@ -103,7 +93,6 @@ def fetchCategory(categories, round):
     rCategory = {'title':categoryTitle, 'clues':rClues} 
         
     return rCategory
-    # TODO:sort clues by value so that they will appear in order 
 
 # receives list of clues and round-values and empty list of clues for the round
 # returns list of all the valid clues matching the values from the round-values list (one for each value)
@@ -120,9 +109,16 @@ def clueValidator(clues, rValues, rClues):
                         break
     return rClues
 
-# def checkAnswer():
+def checkAnswer(clueAnswer, pAnswer):
+    correct = clueAnswer
+    given = pAnswer
+    result = correct.find(given)
+    if result == -1:
+        return False
+    else:
+        return True
 
-
+# def updateScore(value, currentPlayer, result):
 
 
 

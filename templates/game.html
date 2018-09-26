@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="board">
-    {% for cat in game.categories %}
+    {% for cat in session['categories'] %}
     <div class="category">
         <div class="category_header">{{cat['title']}}</div>
         {% for clue in cat['clues']%}
-        <button class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}">{{clue['value']}}</button>
+        <button class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}" category="{{cat['title']}}">{{clue['value']}}</button>
         {% endfor %}
     </div>
     {%endfor%}
     <div class="game-scores">
-        {% for player in game.players %}
+        {% for player in session['players'] %}
         <div class="name">{{player['name']}}</div>
         <div class= "score">{{player['score']}}</div>
         {% endfor %}
@@ -22,7 +22,8 @@
                     <form id="question-form">
                         <div class="question"></div>
                         <input type="text" class="answer_input" name="answer"/>
-                        <input type="submit" class="submit" value="SUBMIT"/>
+                        <!-- <input type="submit" class="submit" value="SUBMIT"/> -->
+                        <button>Submit</button>
                     </form>
                 </div>
             </div>     
@@ -33,13 +34,15 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('.clue').click(function(e){
-            var clue = e.target;
-            var question = clue.attributes.question.value;
-            var answer = clue.attributes.answer.value;
-            var clueValue = clue.innerText;
+            let clue = e.target;
+            let question = clue.attributes.question.value;
+            let answer = clue.attributes.answer.value;
+            let category = clue.attributes.category.value;
+            let clueValue = clue.innerText;
             $('#answer').val(answer);
             $(".question").attr("data-clueValue", clueValue);
             $(".question").attr("data-answer", answer);
+            $(".question").attr("data-category", category);
             $('.question').append(document.createTextNode(question));
             $('#question-panel').modal({show:true});
         });
@@ -48,23 +51,27 @@
         });
     });
     $('#question-form').on('submit', function(e){
-        var clueValue = $('.question').attr('data-clueValue');
-        var clueAnswer = $('.question').attr('data-answer');
-        var pAnswer = $('.answer_input').val();
+        let clueValue = $('.question').attr('data-clueValue');
+        let clueAnswer = $('.question').attr('data-answer');
+        let pAnswer = $('.answer_input').val();
+        let category = $('.question').attr('data-category');
         e.preventDefault();
-        $.ajax({url: "{{url_for('submit_answer')}}",
-                data: {'value':clueValue,
-                        'clueAnswer':clueAnswer,
-                         'pAnswer':pAnswer},
-                method:'POST',
+        $.ajax({
+            url: "{{url_for('submit_answer')}}",
+            data: {'value':clueValue,
+                   'clueAnswer':clueAnswer,
+                   'pAnswer':pAnswer,
+                   'category': category},
+            method:'POST',
                 success: function(data){
                     //take result data from server
                     //display in modal
-                    //update player score
+                    //update player score - page refresh now?? - 
                     //enable next button - to close modal and move on
                 }
             });
-        $('#question-panel').modal({show:false});
+        $('#question-panel').modal('hide');
+        $('#question-form')[0].reset();
     });
     
 
