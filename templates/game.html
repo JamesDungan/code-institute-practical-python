@@ -47,11 +47,25 @@
             $('.question').empty();
         });
     });
-    var form = document.getElementById('question-form');
-    form.onsubmit = function(e){
+    $('#question-form').on('submit', function(e){
+        var clueValue = $('.question').attr('data-clueValue');
+        var clueAnswer = $('.question').attr('data-answer');
+        var pAnswer = $('.answer_input').val();
         e.preventDefault();
-        
-    }
+        $.ajax({url: "{{url_for('submit_answer')}}",
+                data: {'value':clueValue,
+                        'clueAnswer':clueAnswer,
+                         'pAnswer':pAnswer},
+                method:'POST',
+                success: function(data){
+                    //take result data from server
+                    //display in modal
+                    //update player score
+                    //enable next button - to close modal and move on
+                }
+            });
+        $('#question-panel').modal({show:false});
+    });
     
 
     

@@ -25,7 +25,9 @@ def game():
 
 @app.route('/submit_answer', methods=['POST'])
 def submit_answer():
-    return True
+    #see this page https://www.quora.com/How-do-I-run-python-flask-file-when-click-a-HTML-button
+    #take all data from ajax and call funcion to process answers
+    #return result (corect/incorrect) with new scores to game template (received by success function)
 
 
 
