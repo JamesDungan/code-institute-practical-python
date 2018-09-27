@@ -118,7 +118,13 @@ def checkAnswer(clueAnswer, pAnswer):
     else:
         return True
 
-# def updateScore(value, currentPlayer, result):
+def updateScore(value, currentPlayer, result):
+    for p in session['players']:
+        if p['number'] == currentPlayer:
+            if result == True:
+                p['score'] += int(value)
+            else:
+                p['score'] -= int(value)
 
 
 

@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, jsonify
 import libs.gameEngine as engine
 import inspect as i
 app = Flask(__name__)
@@ -36,9 +36,11 @@ def submit_answer():
     clueAnswer = request.form.get('clueAnswer')
 
     result = engine.checkAnswer(clueAnswer, pAnswer)
-    #call update score 
+    engine.updateScore(value, session['currentPlayer'], result)
+    data = {'result': result}
+    data = jsonify(data) 
     #return result (corect/incorrect) with new scores to game template (received by success function)
-    return ('', 204)
+    return data
     
 
 

@@ -29,6 +29,19 @@
             </div>     
         </div>         
     </div>
+
+    <div id="result-panel" class="modal fade" role="dialog" data-keyboard="false"> 
+        <div class="modal-dialog">  
+            <div class = "modal-content">
+                <div class="modal-body">  
+                    <div class='result'></div>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Game</button>
+                </div>
+            </div>     
+        </div>         
+    </div>
+
 </div>
 
 <script type="text/javascript">
@@ -64,6 +77,13 @@
                    'category': category},
             method:'POST',
                 success: function(data){
+                    if(data['result']==true){
+                        var result = 'That\'s Correct! Congratulations';
+                    }else{
+                        var result = 'Sorry that\'s incorrect!';
+                    }
+                    $('.result').append(document.createTextNode(result));
+                    $('#result-panel').modal('show');
                     //take result data from server
                     //display in modal
                     //update player score - page refresh now?? - 
