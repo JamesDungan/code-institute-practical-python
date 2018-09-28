@@ -5,16 +5,17 @@
     <div class="category">
         <div class="category_header">{{cat['title']}}</div>
         {% for clue in cat['clues']%}
-        <button class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}" category="{{cat['title']}}">{{clue['value']}}</button>
+        <button id="{{clue['id']}}" class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}" category="{{cat['title']}}">{{clue['value']}}</button>
         {% endfor %}
     </div>
     {%endfor%}
     <div class="game-scores">
         {% for player in session['players'] %}
         <div class="name">{{player['name']}}</div>
-        <div class= "score">{{player['score']}}</div>
+        <div id ="number{{player['number']}}" class= "score">{{player['score']}}</div>
         {% endfor %}
     </div>
+
     <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false"> 
         <div class="modal-dialog">  
             <div class = "modal-content">
@@ -48,19 +49,25 @@
     $(document).ready(function(){
         $('.clue').click(function(e){
             let clue = e.target;
+            let id = clue.attributes.id.value;
             let question = clue.attributes.question.value;
             let answer = clue.attributes.answer.value;
             let category = clue.attributes.category.value;
             let clueValue = clue.innerText;
             $('#answer').val(answer);
+            $(".question").attr("data-clueId", id);
             $(".question").attr("data-clueValue", clueValue);
             $(".question").attr("data-answer", answer);
             $(".question").attr("data-category", category);
             $('.question').append(document.createTextNode(question));
             $('#question-panel').modal({show:true});
+            $('#'+id).prop('disabled', true);
         });
         $('#question-panel').on('hidden.bs.modal', function () {
             $('.question').empty();
+        });
+        $('#result-panel').on('hidden.bs.modal', function () {
+            $('.result').empty();
         });
     });
     $('#question-form').on('submit', function(e){
@@ -84,9 +91,10 @@
                     }
                     $('.result').append(document.createTextNode(result));
                     $('#result-panel').modal('show');
+                    $('#number' + data['player']).text(data['score']);
                     //take result data from server
                     //display in modal
-                    //update player score - page refresh now?? - 
+                    //update player score
                     //enable next button - to close modal and move on
                 }
             });

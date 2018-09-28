@@ -120,11 +120,15 @@ def checkAnswer(clueAnswer, pAnswer):
 
 def updateScore(value, currentPlayer, result):
     for p in session['players']:
+        print(session['players'])
         if p['number'] == currentPlayer:
             if result == True:
                 p['score'] += int(value)
             else:
                 p['score'] -= int(value)
+                print(session['players'])
+                
+                
 
 
 

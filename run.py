@@ -37,7 +37,15 @@ def submit_answer():
 
     result = engine.checkAnswer(clueAnswer, pAnswer)
     engine.updateScore(value, session['currentPlayer'], result)
-    data = {'result': result}
+    
+    for p in session['players']:
+        if p['number'] == session['currentPlayer']:
+            score = p['score']
+
+    data = {'result': result,
+            'player':session['currentPlayer'],
+            'score':score}
+
     data = jsonify(data) 
     #return result (corect/incorrect) with new scores to game template (received by success function)
     return data
