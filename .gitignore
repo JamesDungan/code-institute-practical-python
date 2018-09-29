@@ -1,3 +1,5 @@
 env
 test.json
 .vscode
+__pycache__
+libs/__pycache__

@@ -12,46 +12,67 @@
     <div class="game-scores">
         {% for player in session['players'] %}
         <div class="name">{{player['name']}}</div>
-        <div id ="number{{player['number']}}" class= "score">{{player['score']}}</div>
+        <div id="number{{player['number']}}" class="score">{{player['score']}}</div>
         {% endfor %}
+        {{session['currentPlayer']}}
     </div>
 
-    <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false"> 
-        <div class="modal-dialog">  
-            <div class = "modal-content">
-                <div class="modal-body">  
-                    <form id="question-form" action = "{{url_for('submit_answer')}}" method="post">
+    <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="question-form" action="{{url_for('submit_answer')}}" method="post">
                         <div class="question"></div>
-                        <input type="text" class="answer_input" name="pAnswer"/>
-                        <input type="hidden" id="value" name="value"/>
-                        <input type="hidden" id="clueId" name="clueId"/>
-                        <input type="hidden" id="clueAnswer" name="clueAnswer"/>
+                        <input type="text" class="answer_input" name="pAnswer" />
+                        <input type="hidden" id="value" name="value" />
+                        <input type="hidden" id="clueId" name="clueId" />
+                        <input type="hidden" id="clueAnswer" name="clueAnswer" />
                         <!-- <input type="submit" class="submit" value="SUBMIT"/> -->
-                        <button type="submit">submit</button> 
+                        <button type="submit">submit</button>
                     </form>
                 </div>
-            </div>     
-        </div>         
+            </div>
+        </div>
     </div>
 
-    <div id="result-panel" class="modal fade" role="dialog" data-keyboard="false"> 
-        <div class="modal-dialog">  
-            <div class = "modal-content">
-                <div class="modal-body">  
+    <div id="result-panel" class="modal fade" role="dialog" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
                     <div class='result'></div>
 
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Game</button>
                 </div>
-            </div>     
-        </div>         
+            </div>
+        </div>
     </div>
 
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        console.log('players', '{{session["players"]}}');
-        $('.clue').click(function(e){
+    var disabledClues = "{{session['disabled']}}";
+    if (disabledClues[0]) {
+        disabledClues = JSON.parse(disabledClues);
+        for (let i = 0; i < disabledClues.length; i++) {
+            $("#" + disabledClues[i]).attr("disabled", true);
+        }
+    }
+    $(window).on('load',function(){
+        var result = "{{result}}";
+        var resultText;
+        if (result != "") {
+            if (result == 'True') {
+                resultText = "Congratulations! That\'s correct!";
+            } else if (result == 'False') {
+                resultText = "Sorry! That was incorrect, better luck next time!";
+            }
+            $('.result').append(document.createTextNode(resultText));
+            $('#result-panel').modal('show');
+        }
+    });
+
+    $(document).ready(function () {
+        $('.clue').click(function (e) {
             let clue = e.target;
             let id = clue.attributes.id.value;
             let question = clue.attributes.question.value;
@@ -61,21 +82,30 @@
             $('#clueId').val(id);
             $('#value').val(clueValue);
             $('.question').append(document.createTextNode(question));
-            $('#question-panel').modal({show:true});
-            $('#'+id).prop('disabled', true);
+            $('#question-panel').modal({ show: true });
+            $('#' + id).prop('disabled', true);
         });
+
         $('#question-panel').on('hidden.bs.modal', function () {
             $('.question').empty();
         });
         $('#result-panel').on('hidden.bs.modal', function () {
             $('.result').empty();
         });
-    });
-    $('#question-form').on('submit', function(e){      
-        $('#question-panel').modal('hide');
-      });
-    
+        $('#question-form').on('submit', function () {
+            // $('#question-panel').modal('hide');
+            $('#question-panel').hide(1000,function(){
 
-    
+            });
+        });
+        // todo: figure out how best to show result modal 
+        
+
+
+    });
+
+
+
+
 </script>
 {% endblock %}

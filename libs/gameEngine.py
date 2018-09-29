@@ -11,7 +11,6 @@ def initRound(rNumber):
     rCategories = []
     while len(rCategories) <= 5:
         category = fetchCategory(categoriesFull, rNumber)
-        
         # make sure no repetition
         if not any(category['title'] == c['title'] for c in rCategories):
             rCategories.append(category)
@@ -121,25 +120,28 @@ def checkAnswer(clueAnswer, pAnswer):
     else:
         return True
 
-# def updateScore(value, currentPlayer, result):
-#     for p in session['players']:
-#         if p['number'] == currentPlayer:
-#             if result == True:
-#                 p['score'] += int(value)
-#             else:
-#                 p['score'] -= int(value)
-
 def updateScore(value, currentPlayer, result):
-    index = 0
-    while index < len(session['players']):
-        if session['players'][index]['number'] == currentPlayer:
-            print('before update......',session['players'])
+    for p in session['players']:
+        if p['number'] == currentPlayer:
             if result == True:
-                session['players'][index]['score'] += int(value)
+                p['score'] += int(value)
+                session.modified = True
             else:
-                session['players'][index]['score'] -= int(value)
-            index += 1  
-    print('after update......', session['players'])              
+                p['score'] -= int(value)
+                session.modified = True
+    if session['currentPlayer'] < len(session['players']):
+        session['currentPlayer'] += 1
+    else:
+        session['currentPlayer'] = 1
+
+def disableClue(clueId):
+    if 'disabled' not in session:
+        session['disabled']=[int(clueId)]
+        session.modified = True
+    else: 
+        session['disabled'].append(int(clueId))
+        session.modified = True
+        
                 
 #session['players'] = {players:[{'number':1, 'name':names[0], 'score':0},{'number':1, 'name':names[0], 'score':0}]}
 
