@@ -30,25 +30,20 @@ def game():
 
 @app.route('/submit_answer', methods=['POST'])
 def submit_answer():
-    category = request.form.get('category')
+    print(request.form)
     value = request.form.get('value')
-    pAnswer = request.form.get('pAnswer')
+    pAnswer = request.form['pAnswer']
     clueAnswer = request.form.get('clueAnswer')
 
     result = engine.checkAnswer(clueAnswer, pAnswer)
     engine.updateScore(value, session['currentPlayer'], result)
-    
+    print('on submit......',session['players'])
     for p in session['players']:
         if p['number'] == session['currentPlayer']:
             score = p['score']
 
-    data = {'result': result,
-            'player':session['currentPlayer'],
-            'score':score}
-
-    data = jsonify(data) 
     #return result (corect/incorrect) with new scores to game template (received by success function)
-    return data
+    return render_template("game.html")
     
 
 

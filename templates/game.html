@@ -20,11 +20,14 @@
         <div class="modal-dialog">  
             <div class = "modal-content">
                 <div class="modal-body">  
-                    <form id="question-form">
+                    <form id="question-form" action = "{{url_for('submit_answer')}}" method="post">
                         <div class="question"></div>
-                        <input type="text" class="answer_input" name="answer"/>
+                        <input type="hidden" id="value" name="value"/>
+                        <input type="hidden" id="clueId" name="clueId"/>
+                        <input type="hidden" id="clueAnswer" name="clueAnswer"/>
+                        <input type="text" class="answer_input" name="pAnswer"/>
                         <!-- <input type="submit" class="submit" value="SUBMIT"/> -->
-                        <button>Submit</button>
+                        <input type="submit">
                     </form>
                 </div>
             </div>     
@@ -47,18 +50,16 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        console.log('players', '{{session["players"]}}');
         $('.clue').click(function(e){
             let clue = e.target;
             let id = clue.attributes.id.value;
             let question = clue.attributes.question.value;
             let answer = clue.attributes.answer.value;
-            let category = clue.attributes.category.value;
             let clueValue = clue.innerText;
-            $('#answer').val(answer);
-            $(".question").attr("data-clueId", id);
-            $(".question").attr("data-clueValue", clueValue);
-            $(".question").attr("data-answer", answer);
-            $(".question").attr("data-category", category);
+            $('#clueAnswer').val(answer);
+            $('#clueId').val(id);
+            $('#value').val(clueValue);
             $('.question').append(document.createTextNode(question));
             $('#question-panel').modal({show:true});
             $('#'+id).prop('disabled', true);
@@ -71,33 +72,36 @@
         });
     });
     $('#question-form').on('submit', function(e){
-        let clueValue = $('.question').attr('data-clueValue');
-        let clueAnswer = $('.question').attr('data-answer');
-        let pAnswer = $('.answer_input').val();
-        let category = $('.question').attr('data-category');
-        e.preventDefault();
-        $.ajax({
-            url: "{{url_for('submit_answer')}}",
-            data: {'value':clueValue,
-                   'clueAnswer':clueAnswer,
-                   'pAnswer':pAnswer,
-                   'category': category},
-            method:'POST',
-                success: function(data){
-                    if(data['result']==true){
-                        var result = 'That\'s Correct! Congratulations';
-                    }else{
-                        var result = 'Sorry that\'s incorrect!';
-                    }
-                    $('.result').append(document.createTextNode(result));
-                    $('#result-panel').modal('show');
-                    $('#number' + data['player']).text(data['score']);
-                    //take result data from server
-                    //display in modal
-                    //update player score
-                    //enable next button - to close modal and move on
-                }
-            });
+        console.log(document.getElementsByClassName('answer_input')[0].value);
+        // let clueValue = $('.question').attr('data-clueValue');
+        // let clueAnswer = $('.question').attr('data-answer');
+        // let pAnswer = $('.answer_input').val();
+        // let category = $('.question').attr('data-category');
+        // e.preventDefault();
+        // $.ajax({
+        //     url: "{{url_for('submit_answer')}}",
+        //     data: {'value':clueValue,
+        //            'clueAnswer':clueAnswer,
+        //            'pAnswer':pAnswer,
+        //            'category': category},
+        //     method:'POST',
+        //         success: function(data){
+                    
+        //             if(data['result']==true){
+        //                 var result = 'That\'s Correct! Congratulations';
+        //             }else{
+        //                 var result = 'Sorry that\'s incorrect!';
+        //             }
+        //             $('.result').append(document.createTextNode(result));
+        //             $('#result-panel').modal('show');
+        //             $('#number' + data['player']).text(data['score']);
+        //             // console.log('players', '{{session["players"]}}');
+        //             //take result data from server
+        //             //display in modal
+        //             //update player score
+        //             //enable next button - to close modal and move on
+        //         }
+        //     });
         $('#question-panel').modal('hide');
         $('#question-form')[0].reset();
     });

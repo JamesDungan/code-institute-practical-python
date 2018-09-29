@@ -30,6 +30,7 @@ def initGame(names):
         players.append({'number':3, 'name':names[2], 'score':0})
     session['players'] = players    
     session['currentPlayer'] = 1
+    # print(session)
 
 
 def getRandomCategories():
@@ -110,6 +111,8 @@ def clueValidator(clues, rValues, rClues):
     return rClues
 
 def checkAnswer(clueAnswer, pAnswer):
+    if pAnswer == '':
+        return False
     correct = clueAnswer
     given = pAnswer
     result = correct.find(given)
@@ -118,18 +121,27 @@ def checkAnswer(clueAnswer, pAnswer):
     else:
         return True
 
-def updateScore(value, currentPlayer, result):
-    for p in session['players']:
-        print(session['players'])
-        if p['number'] == currentPlayer:
-            if result == True:
-                p['score'] += int(value)
-            else:
-                p['score'] -= int(value)
-                print(session['players'])
-                
-                
+# def updateScore(value, currentPlayer, result):
+#     for p in session['players']:
+#         if p['number'] == currentPlayer:
+#             if result == True:
+#                 p['score'] += int(value)
+#             else:
+#                 p['score'] -= int(value)
 
+def updateScore(value, currentPlayer, result):
+    index = 0
+    while index < len(session['players']):
+        if session['players'][index]['number'] == currentPlayer:
+            print('before update......',session['players'])
+            if result == True:
+                session['players'][index]['score'] += int(value)
+            else:
+                session['players'][index]['score'] -= int(value)
+            index += 1  
+    print('after update......', session['players'])              
+                
+#session['players'] = {players:[{'number':1, 'name':names[0], 'score':0},{'number':1, 'name':names[0], 'score':0}]}
 
 
 
