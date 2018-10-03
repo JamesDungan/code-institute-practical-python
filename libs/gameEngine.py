@@ -116,14 +116,18 @@ def clueValidator(clues, rValues, rClues):
     return rClues
 
 
-#base64 decode
+
 def checkAnswer(clueAnswer, pAnswer):
-    if pAnswer == '':
+    #automatically return false(incorrect answer) if user enters empty string or space
+    if pAnswer == '' or pAnswer == ' ':
         return False
+    #remove single quotes and first char 'b' which were added during encoding process
     clueAnswer = clueAnswer.replace("'","")
     clueAnswer = clueAnswer[1:]
+    #decode correct answer
     decodedClueAnswer = base64.b64decode(clueAnswer)
     decodedClueAnswer = decodedClueAnswer.decode('ascii')
+    #see if user gave correct answer i n their response
     result = decodedClueAnswer.find(pAnswer)
     if result == -1:
         return False
