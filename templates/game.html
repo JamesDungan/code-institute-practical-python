@@ -82,7 +82,7 @@
             $('#clueId').val(id);
             $('#value').val(clueValue);
             $('.question').append(document.createTextNode(question));
-            $('#question-panel').modal({ show: true });
+            $('#question-panel').modal('show');
             $('#' + id).prop('disabled', true);
         });
 

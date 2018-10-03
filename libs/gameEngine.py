@@ -3,6 +3,7 @@ import requests
 import operator
 from flask import session 
 from datetime import datetime as dt
+import base64
 base_url = "http://www.jservice.io/api/"
              
 
@@ -90,6 +91,7 @@ def fetchCategory(categories, round):
         rClues = clueValidator(clues, rValues, rClues)
         print(len(rClues))
     rClues.sort(key=operator.itemgetter('value'), reverse=True)
+    
     rCategory = {'title':categoryTitle, 'clues':rClues} 
         
     return rCategory
@@ -104,17 +106,25 @@ def clueValidator(clues, rValues, rClues):
             if airdate > newGameDate:
                 if clue['value'] == val:
                     if clue['answer'] is not None and clue['question'] is not None:
+                        #base64 encode answers so they dont show in dev tools
+                        string = clue['answer']
+                        encodedStr = base64.b64encode(string.encode())
+                        clue['answer'] = encodedStr
                         rClues.append(clue)
                         rValues.remove(val)
                         break
     return rClues
 
+
+#base64 decode
 def checkAnswer(clueAnswer, pAnswer):
     if pAnswer == '':
         return False
-    correct = clueAnswer
-    given = pAnswer
-    result = correct.find(given)
+    clueAnswer = clueAnswer.replace("'","")
+    clueAnswer = clueAnswer[1:]
+    decodedClueAnswer = base64.b64decode(clueAnswer)
+    decodedClueAnswer = decodedClueAnswer.decode('ascii')
+    result = decodedClueAnswer.find(pAnswer)
     if result == -1:
         return False
     else:
