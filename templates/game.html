@@ -40,14 +40,24 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class='result'></div>
-
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Game</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="new-round-panel" class="modal fade" role="dialog" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class='message'></div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Game</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <script type="text/javascript">
     var disabledClues = "{{session['disabled']}}";
@@ -57,6 +67,7 @@
             $("#" + disabledClues[i]).attr("disabled", true);
         }
     }
+    //if disabledclues ==30 (meaning last round was just played) newRound = True
     $(window).on('load',function(){
         var result = "{{result}}";
         var resultText;
@@ -85,27 +96,25 @@
             $('#question-panel').modal('show');
             $('#' + id).prop('disabled', true);
         });
+        $('#question-form').on('submit', function () {
+            $('#question-panel').modal('hide');
+        });
 
         $('#question-panel').on('hidden.bs.modal', function () {
             $('.question').empty();
         });
+       
         $('#result-panel').on('hidden.bs.modal', function () {
             $('.result').empty();
+            var newRound = "{{newRound}}"
+            if(newRound == 'True'){
+                var message = 'time for round two - Double J\'Pyrdy!!\n Are you ready!?';
+                $('.message').append(document.createTextNode(message));
+                $('#new-round-panel').modal('show');
+            }
         });
-        $('#question-form').on('submit', function () {
-            // $('#question-panel').modal('hide');
-            $('#question-panel').hide(1000,function(){
-
-            });
-        });
-        // todo: figure out how best to show result modal 
-        
-
-
+     
     });
-
-
-
 
 </script>
 {% endblock %}

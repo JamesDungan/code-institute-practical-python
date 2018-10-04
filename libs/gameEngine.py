@@ -18,8 +18,9 @@ def initRound(rNumber):
     
     return rCategories
 
-def initGame(names):
-    rCategories = initRound(1)
+def startGame(names):
+    session['round'] = 1
+    rCategories = initRound(session['round'])
     session['categories'] = rCategories
     
     players = [{'number':1, 'name':names[0], 'score':0}]
@@ -30,7 +31,11 @@ def initGame(names):
         players.append({'number':3, 'name':names[2], 'score':0})
     session['players'] = players    
     session['currentPlayer'] = 1
-    # print(session)
+
+def createNewRound(rNumber):
+    rCategories = initRound(rNumber)
+    session['categories'] = rCategories
+    session['currentPlayer'] = 1
 
 
 def getRandomCategories():

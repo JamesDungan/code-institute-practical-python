@@ -22,11 +22,8 @@ def initGame():
         players.append(player3)
 
     # if 'categories' not in session:
-    engine.initGame(players)
+    engine.startGame(players)
     
-    #todo: think about keeping track of game board data in session 
-    #       and reload game board every time player submits an answer
-    #todo: 
         
     return render_template("game.html")
 
@@ -41,10 +38,13 @@ def submit_answer():
     result = engine.checkAnswer(clueAnswer, pAnswer)
     engine.updateScore(value, session['currentPlayer'], result)
     engine.disableClue(clueId)
+    newRound = False
+    session['disabled'] = 30
+    if session['disabled'] == 30:
+        engine.createNewRound(session['round'] + 1)
+        newRound = True
 
-    
-    #return result (corect/incorrect) with new scores to game template (received by success function)
-    return render_template("game.html", result=result)
+    return render_template("game.html", result=result, newRound=newRound)
     
 if __name__ == '__main__':
     app.run(host = 'localhost',
