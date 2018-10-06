@@ -5,18 +5,6 @@ from flask import session
 from datetime import datetime as dt
 import base64
 base_url = "http://www.jservice.io/api/"
-             
-
-def initRound(rNumber):
-    categoriesFull = getRandomCategories()
-    rCategories = []
-    while len(rCategories) <= 5:
-        category = fetchCategory(categoriesFull, rNumber)
-        # make sure no repetition
-        if not any(category['title'] == c['title'] for c in rCategories):
-            rCategories.append(category)
-    
-    return rCategories
 
 def startGame(names):
     session['round'] = 1
@@ -32,11 +20,20 @@ def startGame(names):
     session['players'] = players    
     session['currentPlayer'] = 1
 
+def initRound(rNumber):
+    categoriesFull = getRandomCategories()
+    rCategories = []
+    while len(rCategories) <= 5:
+        category = fetchCategory(categoriesFull, rNumber)
+        # make sure no repetition
+        if not any(category['title'] == c['title'] for c in rCategories):
+            rCategories.append(category)
+    return rCategories
+
 def createNewRound(rNumber):
     rCategories = initRound(rNumber)
     session['categories'] = rCategories
     session['currentPlayer'] = 1
-
 
 def getRandomCategories():
     offset = random.randint(1, 183)*100
@@ -76,8 +73,8 @@ def fetchCategory(categories, round):
     rClues = []
     while len(rClues) < 5:
         rClues = []
-        randomIndex = random.randint(0, 99)
-        categoryId = categories[randomIndex]['id']
+        index = random.randint(0,99)
+        categoryId = categories[index]['id']
         response = requests.get(base_url+"category?id="+str(categoryId))
         category = response.json()
         categoryTitle = category['title']
@@ -85,13 +82,7 @@ def fetchCategory(categories, round):
         clues = category['clues'] #-->list of dicts
         random.shuffle(clues)
         
-        jpyrdy1 = [200,400,600,800,1000]
-        jpyrdy2 = [400,800,1200,1600,2000]
-        
-        if round == 1:
-            rValues = jpyrdy1
-        elif round == 2:
-            rValues = jpyrdy2
+        rValues = [200,400,600,800,1000]
 
         rClues = clueValidator(clues, rValues, rClues)
         print(len(rClues))
@@ -115,6 +106,8 @@ def clueValidator(clues, rValues, rClues):
                         string = clue['answer']
                         encodedStr = base64.b64encode(string.encode())
                         clue['answer'] = encodedStr
+                        if session['round'] == 2:
+                            clue['value']*=2
                         rClues.append(clue)
                         rValues.remove(val)
                         break

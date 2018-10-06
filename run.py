@@ -39,9 +39,10 @@ def submit_answer():
     engine.updateScore(value, session['currentPlayer'], result)
     engine.disableClue(clueId)
     newRound = False
-    session['disabled'] = 30
+
     if session['disabled'] == 30:
-        engine.createNewRound(session['round'] + 1)
+        session['round']+=1
+        engine.createNewRound(session['round'])
         newRound = True
 
     return render_template("game.html", result=result, newRound=newRound)
