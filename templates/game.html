@@ -27,7 +27,6 @@
                         <input type="hidden" id="value" name="value" />
                         <input type="hidden" id="clueId" name="clueId" />
                         <input type="hidden" id="clueAnswer" name="clueAnswer" />
-                        <!-- <input type="submit" class="submit" value="SUBMIT"/> -->
                         <button type="submit">submit</button>
                     </form>
                 </div>
@@ -40,18 +39,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class='result'></div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Game</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="new-round-panel" class="modal fade" role="dialog" data-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class='message'></div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Game</button>
+                    <button type="button" class="btn btn-secondary continue" data-dismiss="modal">Continue Game</button>
                 </div>
             </div>
         </div>
@@ -67,10 +55,11 @@
             $("#" + disabledClues[i]).attr("disabled", true);
         }
     }
-    //if disabledclues ==30 (meaning last round was just played) newRound = True
     $(window).on('load',function(){
         var result = "{{result}}";
         var resultText;
+        //todo: add player score increase or decrease to result panel
+            // will need access to session - player[current player]
         if (result != "") {
             if (result == 'True') {
                 resultText = "Congratulations! That\'s correct!";
@@ -96,6 +85,9 @@
             $('#question-panel').modal('show');
             $('#' + id).prop('disabled', true);
         });
+        $('.continue').click(function(e){
+            // todo: if disabled = 30 load round sumary page
+        });
         $('#question-form').on('submit', function () {
             $('#question-panel').modal('hide');
         });
@@ -106,12 +98,7 @@
        
         $('#result-panel').on('hidden.bs.modal', function () {
             $('.result').empty();
-            var newRound = "{{newRound}}"
-            if(newRound == 'True'){
-                var message = 'time for round two - Double J\'Pyrdy!!\n Are you ready!?';
-                $('.message').append(document.createTextNode(message));
-                $('#new-round-panel').modal('show');
-            }
+
         });
      
     });

@@ -7,7 +7,7 @@ import base64
 base_url = "http://www.jservice.io/api/"
 
 def startGame(names):
-    session['round'] = 1
+
     rCategories = initRound(session['round'])
     session['categories'] = rCategories
     

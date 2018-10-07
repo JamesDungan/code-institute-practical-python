@@ -6,30 +6,28 @@ app = Flask(__name__)
 app.secret_key = "test"
 @app.route('/')
 def index():
+    session.clear()
+    session['round'] = 1
     return render_template("index.html")
 
-@app.route('/initGame', methods=['POST'])
-def initGame():
-
-    player1 = request.form["player1"]
-    player2 = request.form["player2"]
-    player3 = request.form["player3"]
-    players = [player1]
-    
-    if player2 is not '':
-        players.append(player2)
-    if player3 is not '':
-        players.append(player3)
-
-    # if 'categories' not in session:
-    engine.startGame(players)
-    
+@app.route('/initRound', methods=['GET','POST'])
+def initRound():
+    if session['round'] == 1:
+        player1 = request.form["player1"]
+        player2 = request.form["player2"]
+        player3 = request.form["player3"]
+        players = [player1]
         
+        if player2 is not '':
+            players.append(player2)
+        if player3 is not '':
+            players.append(player3)
+
+        engine.startGame(players)
     return render_template("game.html")
 
 @app.route('/game', methods=['POST'])
 def submit_answer():
-    print(request.form)
     clueId = request.form.get('clueId')
     value = request.form.get('value')
     pAnswer = request.form.get('pAnswer')
@@ -38,15 +36,24 @@ def submit_answer():
     result = engine.checkAnswer(clueAnswer, pAnswer)
     engine.updateScore(value, session['currentPlayer'], result)
     engine.disableClue(clueId)
-    newRound = False
+    thisRound=""
+    if len(session['disabled']) == 30:
+        session.pop('disabled')
+        if session['round'] == 1:
+            session['round']+=1
+            session.modified = True
+            engine.createNewRound(session['round'])
+            thisRound = 'two'
+        elif session['round'] == 2:
+            thisRound = 'end'
+        return render_template("summary.html", result=result, thisRound=thisRound)
 
-    if session['disabled'] == 30:
-        session['round']+=1
-        engine.createNewRound(session['round'])
-        newRound = True
+    return render_template("game.html", result=result)
 
-    return render_template("game.html", result=result, newRound=newRound)
-    
+
+
+
+
 if __name__ == '__main__':
     app.run(host = 'localhost',
     port = 8080,

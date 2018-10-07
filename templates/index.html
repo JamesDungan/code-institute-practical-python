@@ -11,7 +11,7 @@
 </div>
 <div class="play_game">
 
-    <form id="player_input" action="{{url_for('initGame')}}" method="post">
+    <form id="player_input" action="{{url_for('initRound')}}" method="post">
         <p>Choose Number of Players</p>
         <select id="number_players" name="number_players" onChange="showHideInputs(this.value)">
             <option selected>One</option>
