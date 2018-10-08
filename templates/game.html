@@ -34,16 +34,6 @@
         </div>
     </div>
 
-    <div id="result-panel" class="modal fade" role="dialog" data-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class='result'></div>
-                    <button type="button" class="btn btn-secondary continue" data-dismiss="modal">Continue Game</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
@@ -55,21 +45,6 @@
             $("#" + disabledClues[i]).attr("disabled", true);
         }
     }
-    $(window).on('load',function(){
-        var result = "{{result}}";
-        var resultText;
-        //todo: add player score increase or decrease to result panel
-            // will need access to session - player[current player]
-        if (result != "") {
-            if (result == 'True') {
-                resultText = "Congratulations! That\'s correct!";
-            } else if (result == 'False') {
-                resultText = "Sorry! That was incorrect, better luck next time!";
-            }
-            $('.result').append(document.createTextNode(resultText));
-            $('#result-panel').modal('show');
-        }
-    });
 
     $(document).ready(function () {
         $('.clue').click(function (e) {
@@ -85,22 +60,13 @@
             $('#question-panel').modal('show');
             $('#' + id).prop('disabled', true);
         });
-        $('.continue').click(function(e){
-            // todo: if disabled = 30 load round sumary page
-        });
         $('#question-form').on('submit', function () {
             $('#question-panel').modal('hide');
         });
 
         $('#question-panel').on('hidden.bs.modal', function () {
             $('.question').empty();
-        });
-       
-        $('#result-panel').on('hidden.bs.modal', function () {
-            $('.result').empty();
-
-        });
-     
+        });  
     });
 
 </script>

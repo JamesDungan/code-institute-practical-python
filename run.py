@@ -39,6 +39,9 @@ def submit_answer():
     thisRound=""
     if len(session['disabled']) == 30:
         session.pop('disabled')
+        leader = engine.getLeader()
+        leaderName = leader['leaderName']
+        leaderPoints = leader['leaderPoints']
         if session['round'] == 1:
             session['round']+=1
             session.modified = True
@@ -46,7 +49,7 @@ def submit_answer():
             thisRound = 'two'
         elif session['round'] == 2:
             thisRound = 'end'
-        return render_template("summary.html", result=result, thisRound=thisRound)
+        return render_template("summary.html", result=result, thisRound=thisRound, leaderName = leaderName, leaderPoints = leaderPoints)
 
     return render_template("game.html", result=result)
 

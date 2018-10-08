@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div id="header">Game Summary Page</div>
-<div id="summary">Player X is in the lead with X points</div>
+<div id="summary"></div>
 
 <div class="game-scores">
     {% for player in session['players'] %}
@@ -11,38 +11,13 @@
 </div>
 <!-- make text for this link dynamic depending on stage of game ----- use "{{thisRound}}" from route -->
 <a class="button" href="{{url_for('initRound')}}">Next Round</a> 
-
-
-<div id="result-panel" class="modal fade" role="dialog" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class='result'></div>
-                <button type="button" class="btn btn-secondary continue" data-dismiss="modal">Continue Game</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-$(window).on('load',function(){
-    var result = "{{result}}";
-    var resultText;
-    //todo: add player score increase or decrease to result panel
-        // will need access to session - player[current player]
-    if (result != "") {
-        if (result == 'True') {
-            resultText = "Congratulations! That\'s correct!";
-        } else if (result == 'False') {
-            resultText = "Sorry! That was incorrect, better luck next time!";
-        }
-        $('.result').append(document.createTextNode(resultText));
-        $('#result-panel').modal('show');
-    }
-    var round = "{{thisRound}}";
-    if (round.toLowerCase() =='end'){
+<script type="text/javascript">
+var round = "{{thisRound}}";
+    if (round.toLowerCase() =='two'){
+        $('#summary').text("<p>{{leaderName}} is in the lead with {{leaderPoints}} points!</p><p>Click the button to continue to round two - Double J'Pyrdy!</p>");
+    }else if (round.toLowerCase() =='end'){
+        $('#summary').text("<p>{{leader}} has won the game!!</p><p>Go <a href=\"{{url_for('index')}}\">home</a> to play another game!</p>");
         $('.button').hide();
         }
-});
 </script>
-
 {% endblock %}

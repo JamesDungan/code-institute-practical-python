@@ -153,6 +153,16 @@ def disableClue(clueId):
     else: 
         session['disabled'].append(int(clueId))
         session.modified = True
+
+def getLeader():
+    if len(session['players'] == 1):
+        leader = {'leaderName':session['players'][0]['name'], 'leaderPoints':session['players'][0]['score']}
+        return leader
+
+    # max_score = max(player['score'] for player in players)
+    for p in session['players']:
+
+
         
                 
 #session['players'] = {players:[{'number':1, 'name':names[0], 'score':0},{'number':1, 'name':names[0], 'score':0}]}
