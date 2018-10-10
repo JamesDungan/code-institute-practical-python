@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header">{{header}}</div>
+{% if leaderBoard[0] %}
+<table class="board">
+    <tr>
+        <th>Place</th>
+        <th>Name</th>
+        <th>Score</th>
+        <th>Date</th>
+    </tr>
+    {% for player in leaderBoard %}
+    <tr>
+        <td>{{loop.index}}</td>
+        <td>{{player['name']}}</td>
+        <td>{{player['score']}}</td>
+        <td>{{player['date']}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+        <div>The Leader Board is Currently Empty!</div>
+{% endif %}
+{% endblock %}

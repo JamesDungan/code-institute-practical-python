@@ -1,6 +1,7 @@
 import random
 import requests
 import operator
+import json
 from flask import session 
 from datetime import datetime as dt
 import base64
@@ -11,12 +12,12 @@ def startGame(names):
     rCategories = initRound(session['round'])
     session['categories'] = rCategories
     
-    players = [{'number':1, 'name':names[0], 'score':0}]
+    players = [{'number':1, 'name':names[0], 'score':0, 'date':dt.date(dt.today()).isoformat()}]
 
     if len(names) > 1:
-        players.append({'number':2, 'name':names[1], 'score':0})
+        players.append({'number':2, 'name':names[1], 'score':0, 'date':dt.date(dt.today()).isoformat()})
     if len(names) > 2:
-        players.append({'number':3, 'name':names[2], 'score':0})
+        players.append({'number':3, 'name':names[2], 'score':0, 'date':dt.date(dt.today()).isoformat()})
     session['players'] = players    
     session['currentPlayer'] = 1
 
@@ -155,16 +156,46 @@ def disableClue(clueId):
         session.modified = True
 
 def getLeader():
-    if len(session['players'] == 1):
-        leader = {'leaderName':session['players'][0]['name'], 'leaderPoints':session['players'][0]['score']}
-        return leader
+    leader = max(session['players'], key=lambda x: x['score'])
+    return leader
 
-    # max_score = max(player['score'] for player in players)
-    for p in session['players']:
+def updateLeaderBoard():
+    # players = [{'number':1, 'name':'james', 'score':1, 'date':dt.date(dt.today()).isoformat()},{'number':2, 'name':'john', 'score':50000,'date':dt.date(dt.today()).isoformat()},{'number':3, 'name':'mary', 'score':55,'date':dt.date(dt.today()).isoformat()}]
+    with open('leaderBoard.json') as read_file:
+        st = read_file.read()
+        read_file.seek(0)
+        #on first game the file will contain just an empty string
+        if st != ' ': #on all subsequent games
+            data = json.load(read_file)
+            for p in session['players']: 
+                data.append(p)
+        else:#on first game
+            data = session['players']
+    
+    #sort data according to score descending
+    data.sort(key=operator.itemgetter('score'), reverse=True)
+    #remove lowest scores so that only 10 remain at most
+    if len(data)>10:
+        n = len(data)-10
+        data = data[:-n]
+
+    with open('leaderBoard.json', 'w+') as write_file:
+        json.dump(data, write_file)
+
+def getLeaderBoard():
+    with open('leaderBoard.json') as read_file:
+        st = read_file.read()
+        if st == ' ':
+            leaderBoard = []
+            return leaderBoard
+        leaderBoard = json.load(read_file)
+    return leaderBoard
+
+    
 
 
-        
-                
+# players = [{'number':1, 'name':'james', 'score':1},{'number':2, 'name':'john', 'score':50000},{'number':3, 'name':'mary', 'score':55}]
+
 #session['players'] = {players:[{'number':1, 'name':names[0], 'score':0},{'number':1, 'name':names[0], 'score':0}]}
 
 

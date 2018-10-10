@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div id="header">Game Summary Page</div>
+<div id="header">{{header}}</div>
 <div id="summary"></div>
 
 <div class="game-scores">
@@ -14,9 +14,9 @@
 <script type="text/javascript">
 var round = "{{thisRound}}";
     if (round.toLowerCase() =='two'){
-        $('#summary').text("<p>{{leaderName}} is in the lead with {{leaderPoints}} points!</p><p>Click the button to continue to round two - Double J'Pyrdy!</p>");
+        $('#summary').html("<p>{{name}} is in the lead with {{score}} points!</p><p>Click the button to continue to round two - Double J'Pyrdy!</p>");
     }else if (round.toLowerCase() =='end'){
-        $('#summary').text("<p>{{leader}} has won the game!!</p><p>Go <a href=\"{{url_for('index')}}\">home</a> to play another game!</p>");
+        $('#summary').html("<p>{{name}} has won the game with a grand total of {{score}} points!!</p><p>Go <a href=\"{{url_for('index')}}\">home</a> to play another game!</p>");
         $('.button').hide();
         }
 </script>

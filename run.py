@@ -13,6 +13,7 @@ def index():
 @app.route('/initRound', methods=['GET','POST'])
 def initRound():
     if session['round'] == 1:
+        header = "Round 1 J'Pyrdy!"
         player1 = request.form["player1"]
         player2 = request.form["player2"]
         player3 = request.form["player3"]
@@ -24,7 +25,9 @@ def initRound():
             players.append(player3)
 
         engine.startGame(players)
-    return render_template("game.html")
+    else:
+        header = "Round 2 Double J'Pyrdy!"   
+    return render_template("game.html", header = header)
 
 @app.route('/game', methods=['POST'])
 def submit_answer():
@@ -37,11 +40,16 @@ def submit_answer():
     engine.updateScore(value, session['currentPlayer'], result)
     engine.disableClue(clueId)
     thisRound=""
+    if session['round'] == 1:
+        header = "Round 1 J'Pyrdy!"
+    else:
+        header = "Round 2 Double J'Pyrdy!"
+    # session['disabled'] = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3]
     if len(session['disabled']) == 30:
         session.pop('disabled')
         leader = engine.getLeader()
-        leaderName = leader['leaderName']
-        leaderPoints = leader['leaderPoints']
+        score = leader['score']
+        name = leader['name']
         if session['round'] == 1:
             session['round']+=1
             session.modified = True
@@ -49,11 +57,15 @@ def submit_answer():
             thisRound = 'two'
         elif session['round'] == 2:
             thisRound = 'end'
-        return render_template("summary.html", result=result, thisRound=thisRound, leaderName = leaderName, leaderPoints = leaderPoints)
+            engine.updateLeaderBoard()
+        return render_template("summary.html", result=result, thisRound=thisRound, name = name, score= score, header = "Game Summary" )
 
-    return render_template("game.html", result=result)
+    return render_template("game.html", result=result, header=header)
 
-
+@app.route('/leader_board', methods=['GET'])
+def leader_board():
+    leaderBoard = engine.getLeaderBoard()
+    return render_template("leaderBoard.html", leaderBoard=leaderBoard)
 
 
 
