@@ -4,9 +4,9 @@
 <div class="board">
     {% for cat in session['categories'] %}
     <div class="category">
-        <div class="category_header">{{cat['title']}}</div>
+        <div class="category-header"><p>{{cat['title']}}</p></div>
         {% for clue in cat['clues']%}
-        <button id="{{clue['id']}}" class="clue" question="{{clue['question']}}" answer="{{clue['answer']}}" category="{{cat['title']}}">{{clue['value']}}</button>
+        <div class="clue" category="{{cat['title']}}"><p class = "clueText" id="{{clue['id']}}" question="{{clue['question']}}" answer="{{clue['answer']}}">{{clue['value']}}</p></div>
         {% endfor %}
     </div>
     {%endfor%}
@@ -15,7 +15,6 @@
         <div class="name">{{player['name']}}</div>
         <div id="number{{player['number']}}" class="score">{{player['score']}}</div>
         {% endfor %}
-        {{session['currentPlayer']}}
     </div>
 
     <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false">
@@ -34,21 +33,10 @@
             </div>
         </div>
     </div>
-
 </div>
-
-
 <script type="text/javascript">
-    var disabledClues = "{{session['disabled']}}";
-    if (disabledClues[0]) {
-        disabledClues = JSON.parse(disabledClues);
-        for (let i = 0; i < disabledClues.length; i++) {
-            $("#" + disabledClues[i]).attr("disabled", true);
-        }
-    }
-
     $(document).ready(function () {
-        $('.clue').click(function (e) {
+        $('.clueText').on('click', function (e) {
             let clue = e.target;
             let id = clue.attributes.id.value;
             let question = clue.attributes.question.value;
@@ -68,6 +56,14 @@
         $('#question-panel').on('hidden.bs.modal', function () {
             $('.question').empty();
         });  
+        var disabledClues = "{{session['disabled']}}";
+        if (disabledClues[0]) {
+            disabledClues = JSON.parse(disabledClues);
+            for (let i = 0; i < disabledClues.length; i++) {
+                $("#" + disabledClues[i]).text("");
+                $("#" + disabledClues[i]).off('click');
+            }
+        }
     });
 
 </script>

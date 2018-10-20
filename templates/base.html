@@ -5,21 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>J'Pyrdy!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="../static/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="../static/main.css" />
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    
 </head>
 <body>
-    <nav>
-        <ul>
-            <li>
-                <a href="{{ url_for('index') }}">Home Page</a>
-            </li>
-            <li>
-                <a href="{{ url_for('leader_board') }}">Leader Board</a>
-            </li>
-        </ul>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{{ url_for('index') }}">J'Pyrdy Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('leader_board') }}">Leader Board</a>
+                </li>
+            </ul>
+        </div>
+    </nav>    
 {% block content %}
 {% endblock %}
 <div id="result-panel" class="modal fade" role="dialog" data-keyboard="false">
@@ -37,8 +41,6 @@
 $(window).on('load',function(){
     var result = "{{result}}";
     var resultText;
-    //todo: add player score increase or decrease to result panel
-        // will need access to session - player[current player]
     if (result != "") {
         if (result == 'True') {
             resultText = "Congratulations! That\'s correct!";
