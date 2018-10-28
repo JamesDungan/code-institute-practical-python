@@ -1,3 +1,7 @@
+body{
+    font-family: 'Jura', sans-serif;
+}
+
 #player3, #player2{
     display:none;
 } 
@@ -14,6 +18,52 @@
     font-family: 'Swiss 911';
     src: url('swiss911_ucm_bt.ttf');
 }
+
+
+@media only screen and (min-width: 768px){
+    .play_game, .welcome{
+        padding: 10px 20px;
+        width: 50%;
+    }
+
+    .welcome{
+        float: left;
+    }
+
+    .play_game{
+        float:right;
+    } 
+
+    #wrapper{
+        margin: 0 5%;
+    }
+}
+
+.game-scores{
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.names{
+    float:left;
+}
+.board{
+    clear:left;
+}
+
+.play_game, .welcome{
+    padding: 10px 20px;
+}
+
+p, span{
+    font-size: 1.3em;
+}
+
+.welcome p{
+    font-size: 1.45em;
+}
+
 
 .navbar a{
     font-family: 'jeopardy';
@@ -36,7 +86,7 @@
     font-size: 60px;
     background-color: #041F9D;
     text-align: center;
-    margin-top: 10px;
+    border: 2px solid #EDA958!important;
 }
 
 .board {

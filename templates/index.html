@@ -1,38 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="welcome">
-    <h1>Welcome to J'Pyrdy!</h1>
-    <p>J'Pyrdy! is an online emulation of the U.S. television quiz show Jeopardy! It was developed using the python
-        programming
-        language and makes use of the
-        <a href="http://www.jservice.io">jService api</a> which feeds the application with over 150,000 trivia
-        questions
-        from the popular game show.</p>
-</div>
-<div class="play_game">
+<div id="wrapper">
+    <div class="welcome">
+        <h1>Welcome to J'Pyrdy!</h1>
+        <p>J'Pyrdy! is an online emulation of the U.S. television quiz show Jeopardy! It was developed using the python
+            programming
+            language and makes use of the
+            <a href="http://www.jservice.io">jService api</a> which feeds the application with over 150,000 trivia
+            questions
+            from the popular game show.</p>
+    </div>
+    <div class="play_game">
 
-    <form id="player_input" action="{{url_for('initRound')}}" method="post">
-        <p>Choose Number of Players</p>
-        <select id="number_players" name="number_players" onChange="showHideInputs(this.value)">
-            <option selected>One</option>
-            <option>Two</option>
-            <option>Three</option>
-        </select><span> 1 - 3 people can play at a time </span>
-        <p>Enter the names of each player</p>
-        <p id="player1">
-            <label for="player1_name">Player One: </label>
-            <input id="player1_name" type="text" maxlength="10" name="player1">
-        </p>
-        <p id="player2">
-            <label for="player2_name">Player Two: </label>
-            <input id="player2_name" type="text" maxlength="10" name="player2">
-        </p>
-        <p id="player3">
-            <label for="player3_name">Player Three: </label>
-            <input id="player3_name" type="text" maxlength="10" name="player3">
-        </p>
-        <input type="submit" value="PLAY J'PYRDY">
-    </form>
+        <form id="player_input" action="{{url_for('initRound')}}" method="post">
+            <h2>Choose the number of contestants:</h2>
+            <select id="number_players" name="number_players" onChange="showHideInputs(this.value)">
+                <option selected>One</option>
+                <option>Two</option>
+                <option>Three</option>
+            </select><span> Up to three people can play at a time.</span>
+            <p>Enter the names of each contestant below:</p>
+            <p id="player1" class="players">
+                <label for="player1_name">Contestant One name: </label>
+                <input class= "name_input" id="player1_name" type="text" maxlength="10" name="player1">
+            </p>
+            <p id="player2" class="players">
+                <label for="player2_name">Contestant Two name: </label>
+                <input class= "name_input" id="player2_name" type="text" maxlength="10" name="player2">
+            </p>
+            <p id="player3" class="players">
+                <label for="player3_name">Contestant Three name: </label>
+                <input class= "name_input" id="player3_name" type="text" maxlength="10" name="player3">
+            </p>
+            <input id="play" class ="btn" type="submit" value="PLAY J'PYRDY">
+        </form>
+    </div>
 </div>
 
 <script>

@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="../static/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="../static/main.css" />
-    
+    <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
@@ -31,7 +31,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class='result'></div>
-                <button type="button" class="btn btn-secondary continue" data-dismiss="modal">Continue Game</button>
+                <button class ="btn" type="button" class="btn btn-secondary continue" data-dismiss="modal">Continue Game</button>
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@ $(window).on('load',function(){
         if (result == 'True') {
             resultText = "Congratulations! That\'s correct!";
         } else if (result == 'False') {
-            resultText = "Sorry! That was incorrect, better luck next time!";
+            resultText = "Sorry! That was incorrect, better luck next time.";
         }
         $('.result').append(document.createTextNode(resultText));
         $('#result-panel').modal('show');

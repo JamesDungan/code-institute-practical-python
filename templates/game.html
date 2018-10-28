@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="header">{{header}}</div>
+<div id="score-header">SCORES</div>
+<div class="game-scores">
+    {% for player in session['players'] %}
+    <div class="names">
+        <div class="name">{{player['name']}}</div>
+        <div id="number{{player['number']}}" class="score">{{player['score']}}</div>
+    </div>
+    {% endfor %}
+</div>
 <div class="board">
     {% for cat in session['categories'] %}
     <div class="category">
@@ -10,12 +19,6 @@
         {% endfor %}
     </div>
     {%endfor%}
-    <div class="game-scores">
-        {% for player in session['players'] %}
-        <div class="name">{{player['name']}}</div>
-        <div id="number{{player['number']}}" class="score">{{player['score']}}</div>
-        {% endfor %}
-    </div>
 
     <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false">
         <div class="modal-dialog">
@@ -27,7 +30,7 @@
                         <input type="hidden" id="value" name="value" />
                         <input type="hidden" id="clueId" name="clueId" />
                         <input type="hidden" id="clueAnswer" name="clueAnswer" />
-                        <button type="submit">submit</button>
+                        <button class ="btn" type="submit">submit</button>
                     </form>
                 </div>
             </div>
