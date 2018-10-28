@@ -203,7 +203,7 @@ p, span{
     margin-top:5px;
 }
 
-#question-form .question, .result{
+#question-form .question, .result, .loading{
     font-size: 30px;
     color: #fff;
     text-transform: uppercase;
@@ -213,4 +213,19 @@ p, span{
     display: table-cell;
     font-family: 'ITC Korinna', helvetica, serif;
     line-height: 1.1em;
+}
+.board{
+    background-color: #fff;
+    margin-top: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.5em;
+}    
+
+td, th{
+    padding: 0 20px;
+}
+
+table{
+    border-collapse: separate;
 }

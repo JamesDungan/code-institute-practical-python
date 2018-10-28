@@ -8,7 +8,6 @@ import base64
 base_url = "http://www.jservice.io/api/"
 
 def startGame(names):
-
     rCategories = initRound(session['round'])
     session['categories'] = rCategories
     
@@ -185,6 +184,7 @@ def updateLeaderBoard():
 def getLeaderBoard():
     with open('leaderBoard.json') as read_file:
         st = read_file.read()
+        read_file.seek(0)
         if st == ' ':
             leaderBoard = []
             return leaderBoard

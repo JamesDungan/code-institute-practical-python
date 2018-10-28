@@ -38,6 +38,11 @@
 </div>
 
 <script>
+    $('#play').on('click', function(){
+        $('#loading-panel').modal('show'); //in base.html file
+    });
+    
+
     function showHideInputs(val) {
         var value = val;
         var player1 = document.getElementById("player1");

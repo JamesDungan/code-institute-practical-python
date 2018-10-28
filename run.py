@@ -46,8 +46,6 @@ def submit_answer():
         header = "Round 1 J'Pyrdy!"
     else:
         header = "Round 2 Double J'Pyrdy!"
-    session['disabled'] = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3]
-    session['round'] = 1
     if len(session['disabled']) == 30:
         session.pop('disabled')
         leader = engine.getLeader()
@@ -67,8 +65,9 @@ def submit_answer():
 
 @app.route('/leader_board', methods=['GET'])
 def leader_board():
+    header="Leader Board"
     leaderBoard = engine.getLeaderBoard()
-    return render_template("leaderBoard.html", leaderBoard=leaderBoard)
+    return render_template("leaderBoard.html", leaderBoard=leaderBoard, header=header)
 
 
 

@@ -26,12 +26,21 @@
     </nav>    
 {% block content %}
 {% endblock %}
-<div id="result-panel" class="modal fade" role="dialog" data-keyboard="false">
+<div id="result-panel" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <div class='result'></div>
                 <button class ="btn" type="button" class="btn btn-secondary continue" data-dismiss="modal">Continue Game</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="loading-panel" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class='loading'>Loading...</div>
             </div>
         </div>
     </div>
@@ -54,6 +63,7 @@ $(window).on('load',function(){
             $('.result').empty();
 
         });
+    
 });
 
 </script>

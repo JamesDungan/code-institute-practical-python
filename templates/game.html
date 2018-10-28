@@ -20,7 +20,7 @@
     </div>
     {%endfor%}
 
-    <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false">
+    <div id="question-panel" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -30,7 +30,7 @@
                         <input type="hidden" id="value" name="value" />
                         <input type="hidden" id="clueId" name="clueId" />
                         <input type="hidden" id="clueAnswer" name="clueAnswer" />
-                        <button class ="btn" type="submit">submit</button>
+                        <button id="submit-answer" class ="btn" type="submit">submit</button>
                     </form>
                 </div>
             </div>
@@ -67,6 +67,9 @@
                 $("#" + disabledClues[i]).off('click');
             }
         }
+        $('#submit-answer').on('click', function(){
+        $('#loading-panel').modal('show'); //in base.html file
+    });
     });
 
 </script>
