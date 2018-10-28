@@ -51,8 +51,7 @@ body, html{
     justify-content: center;
     font-family: 'Swiss 911';
     text-shadow: 2px 2px 2px #000;
-    background: url("jeopardy-2018-2019-wipe-1024x567.jpg") no-repeat;
-    background-size:cover;
+    
 }
 .game-scores-sum{
     font-family: 'Swiss 911';
@@ -81,6 +80,7 @@ body, html{
     font-size: 50px;
     font-weight: bold;
 }
+
 
 .sum-name{
     text-transform: uppercase;

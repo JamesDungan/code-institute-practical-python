@@ -5,7 +5,7 @@ import json
 import os
 
 app = Flask(__name__)
-app.secret_key = "test"
+app.secret_key = b'\xa6)cYc@r(F\xfdem\\\x99\xbac4\xceJ\xefJ=B\x9b'
 @app.route('/')
 def index():
     session.clear()

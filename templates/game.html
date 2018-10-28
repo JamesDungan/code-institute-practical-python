@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="header">{{header}}</div>
+ 
 <div id="score-header">SCORES</div>
 <div class="game-scores">
     {% for player in session['players'] %}
@@ -10,6 +11,7 @@
     </div>
     {% endfor %}
 </div>
+
 <div class="board">
     {% for cat in session['categories'] %}
     <div class="category">
