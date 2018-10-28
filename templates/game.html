@@ -4,9 +4,9 @@
 <div id="score-header">SCORES</div>
 <div class="game-scores">
     {% for player in session['players'] %}
-    <div class="names">
+    <div class="names" id="number{{player['number']}}">
         <div class="name">{{player['name']}}</div>
-        <div id="number{{player['number']}}" class="score">{{player['score']}}</div>
+        <div class="score">{{player['score']}}</div>
     </div>
     {% endfor %}
 </div>

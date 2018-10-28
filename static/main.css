@@ -1,10 +1,15 @@
-body{
+body, html{
     font-family: 'Jura', sans-serif;
+    height:100%;
+    width:100%;
+    background: url("jeopardy-2018-2019-wipe-1024x567.jpg") no-repeat;
+    background-size:cover;
 }
 
 #player3, #player2{
     display:none;
 } 
+
 @font-face {
     font-family: 'jeopardy';
     src: url('gyparody.ttf');
@@ -23,7 +28,8 @@ body{
 @media only screen and (min-width: 768px){
     .play_game, .welcome{
         padding: 10px 20px;
-        width: 50%;
+        width: 49%;
+        margin:100px 2px !important;
     }
 
     .welcome{
@@ -39,14 +45,50 @@ body{
     }
 }
 
-.game-scores{
+.game-scores, #score-header{
     display:flex;
     flex-flow: row nowrap;
     justify-content: center;
+    font-family: 'Swiss 911';
+    text-shadow: 2px 2px 2px #000;
+    background: url("jeopardy-2018-2019-wipe-1024x567.jpg") no-repeat;
+    background-size:cover;
+}
+.game-scores-sum{
+    font-family: 'Swiss 911';
+    color: #EDA958;
+    font-size: 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px #000;
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    background-color: #041F9D;
+}
+.game-scores{
+    color: #EDA958;
+    font-size: 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+#summary{
+    text-shadow: 2px 2px 2px #000;
+    color: #fff!important;
+}
+#score-header{
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
 }
 
+.sum-name{
+    text-transform: uppercase;
+}
 .names{
     float:left;
+    padding: 0 5%;
+    text-align: center;
 }
 .board{
     clear:left;
@@ -54,6 +96,9 @@ body{
 
 .play_game, .welcome{
     padding: 10px 20px;
+    background-color: #fff;
+    border-radius: 7%;
+    margin: 25px 30px;
 }
 
 p, span{
@@ -86,7 +131,10 @@ p, span{
     font-size: 60px;
     background-color: #041F9D;
     text-align: center;
-    border: 2px solid #EDA958!important;
+    border-bottom: 2px solid #000;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+
 }
 
 .board {
@@ -165,5 +213,4 @@ p, span{
     display: table-cell;
     font-family: 'ITC Korinna', helvetica, serif;
     line-height: 1.1em;
-
 }
