@@ -5,7 +5,7 @@
 <div id="score-header">SCORES</div>
 <div class="game-scores">
     {% for player in session['players'] %}
-    <div class="names" id="number{{player['number']}}">
+    <div class="names" id="{{player['number']}}">
         <div class="name">{{player['name']}}</div>
         <div class="score">{{player['score']}}</div>
     </div>
@@ -72,6 +72,9 @@
         $('#submit-answer').on('click', function(){
         $('#loading-panel').modal('show'); //in base.html file
     });
+        var currentPlayer = "{{session['currentPlayer']}}";
+        $('#'+currentPlayer).css({"background-color": '#fff', "opacity":"0.7", "filter": "alpha(opacity=60)"});
+
     });
 
 </script>

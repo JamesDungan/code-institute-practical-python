@@ -125,7 +125,10 @@ def checkAnswer(clueAnswer, pAnswer):
     #decode correct answer
     decodedClueAnswer = base64.b64decode(clueAnswer)
     decodedClueAnswer = decodedClueAnswer.decode('ascii')
-    #see if user gave correct answer i n their response
+    #convert all to lowercase
+    decodedClueAnswer = decodedClueAnswer.lower()
+    pAnswer = pAnswer.lower()
+    #see if user gave correct answer in their response
     result = decodedClueAnswer.find(pAnswer)
     if result == -1:
         return False
